@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
+<script src="https://d3js.org/d3.v6.min.js"></script>
 <style>
 body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
 .w3-bar-block .w3-bar-item {padding:20px}
@@ -37,17 +38,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
   <iframe src="https://ybsaatci.github.io/covidData/iframe2" height="1000" width="1000" title="Graph 2"></iframe>
 
   
-  <hr id="about">
 
-  <!-- About Section -->
-  <div class="w3-container w3-padding-32 w3-center">  
-    <h3>Covids impact on different death causes and medical systems around the globe.</h3><br>
-    <div class="w3-padding-32">
-      <p> The visualizations that we created compare varying death causes before COVID and after COVID. The user can gain insight on different trends that followed the COVID pandemic in the medical system. These visualizations explore the trend in different death causes after the COVID.</p>
-    </div>
-  </div>
-  <hr>
-  
 
 <!-- End page content -->
 </div>
@@ -57,11 +48,270 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
 function w3_open() {
   document.getElementById("mySidebar").style.display = "block";
 }
- 
+document.addEventListener('DOMContentLoaded', function () {
+    const data = [
+        { name: "United States", value: 29922392 },
+        { name: "Brazil", value: 12130019 },
+        { name: "India", value: 11734058 },
+        { name: "Russia", value: 4424595 },
+        { name: "France", value: 4373607 },
+        { name: "United Kingdom", value: 4321019 },
+        { name: "Italy", value: 3419616 },
+        { name: "Spain", value: 3234319 },
+        { name: "Turkey", value: 3061520 },
+        { name: "Germany", value: 2699231 },
+        { name: "Colombia", value: 2347224 },
+        { name: "Argentina", value: 2261577 },
+        { name: "Mexico", value: 2203041 },
+        { name: "Poland", value: 2089869 },
+        { name: "Iran", value: 1815712 },
+        { name: "Ukraine", value: 1615747 },
+        { name: "South Africa", value: 1538961 },
+        { name: "Peru", value: 1481259 },
+        { name: "Czechia", value: 1475538 },
+        { name: "Indonesia", value: 1471225 },
+        { name: "Netherlands", value: 1230746 },
+        { name: "Canada", value: 947489 },
+        { name: "Chile", value: 942958 },
+        { name: "Romania", value: 907007 },
+        { name: "Belgium", value: 842775 },
+        { name: "Israel", value: 829689 },
+        { name: "Portugal", value: 818212 },
+        { name: "Iraq", value: 803041 },
+        { name: "Sweden", value: 758335 },
+        { name: "Philippines", value: 677653 },
+        { name: "Pakistan", value: 637042 },
+        { name: "Hungary", value: 586123 },
+        { name: "Switzerland", value: 586096 },
+        { name: "Bangladesh", value: 577241 },
+        { name: "Serbia", value: 561372 },
+        { name: "Jordan", value: 553727 },
+        { name: "Austria", value: 519980 },
+        { name: "Morocco", value: 492403 },
+        { name: "Japan", value: 458621 },
+        { name: "Lebanon", value: 444865 },
+        { name: "United Arab Emirates", value: 444398 },
+        { name: "Saudi Arabia", value: 385834 },
+        { name: "Panama", value: 351667 },
+        { name: "Slovakia", value: 350551 },
+        { name: "Malaysia", value: 335540 },
+        { name: "Ecuador", value: 313570 },
+        { name: "Bulgaria", value: 312741 },
+        { name: "Belarus", value: 312474 },
+        { name: "Kazakhstan", value: 285241 },
+        { name: "Georgia", value: 278178 },
+        { name: "Nepal", value: 276244 },
+        { name: "Bolivia", value: 266086 },
+        { name: "Croatia", value: 258745 },
+        { name: "Dominican Republic", value: 250177 },
+        { name: "Azerbaijan", value: 248307 },
+        { name: "Tunisia", value: 246507 },
+        { name: "Greece", value: 242347 },
+        { name: "Ireland", value: 231484 },
+        { name: "Palestine", value: 228044 },
+        { name: "Denmark", value: 227723 },
+        { name: "Kuwait", value: 221743 },
+        { name: "Moldova", value: 217715 },
+        { name: "Costa Rica", value: 213438 },
+        { name: "Lithuania", value: 210202 },
+        { name: "Slovenia", value: 207298 },
+        { name: "Paraguay", value: 198135 },
+        { name: "Egypt", value: 196709 },
+        { name: "Ethiopia", value: 190594 },
+        { name: "Guatemala", value: 189067 },
+        { name: "Armenia", value: 185020 },
+        { name: "Honduras", value: 184031 },
+        { name: "Qatar", value: 174762 },
+        { name: "Nigeria", value: 162076 },
+        { name: "Bosnia and Herzegovina", value: 156346 },
+        { name: "Libya", value: 153411 },
+        { name: "Venezuela", value: 152508 },
+        { name: "Oman", value: 152364 },
+        { name: "Myanmar", value: 142264 },
+        { name: "Bahrain", value: 137550 },
+        { name: "Kenya", value: 123167 },
+        { name: "Albania", value: 121847 },
+        { name: "North Macedonia", value: 120882 },
+        { name: "Algeria", value: 116349 },
+        { name: "China", value: 101582 },
+        { name: "South Korea", value: 99846 },
+        { name: "Latvia", value: 98094 },
+        { name: "Estonia", value: 97456 },
+        { name: "Sri Lanka", value: 90765 },
+        { name: "Ghana", value: 89893 },
+        { name: "Norway", value: 89120 },
+        { name: "Montenegro", value: 88116 },
+        { name: "Kyrgyzstan", value: 87652 },
+        { name: "Zambia", value: 86779 },
+        { name: "Uruguay", value: 86007 },
+        { name: "Uzbekistan", value: 81678 },
+        { name: "Kosovo", value: 80295 },
+        { name: "Finland", value: 72713 },
+        { name: "Cuba", value: 68250 },
+        { name: "Mozambique", value: 66496 },
+        { name: "El Salvador", value: 63344 },
+        { name: "Singapore", value: 60221 },
+        { name: "Luxembourg", value: 59662 },
+        { name: "Afghanistan", value: 56177 },
+        { name: "Cyprus", value: 42993 },
+        { name: "Namibia", value: 42771 },
+        { name: "Cote d'Ivoire", value: 40868 },
+        { name: "Uganda", value: 40719 },
+        { name: "Cameroon", value: 40622 },
+        { name: "Senegal", value: 37958 },
+        { name: "Botswana", value: 37559 },
+        { name: "Zimbabwe", value: 36717 },
+        { name: "Jamaica", value: 36231 },
+        { name: "Malawi", value: 33323 },
+        { name: "Sudan", value: 31147 },
+        { name: "Australia", value: 29221 },
+        { name: "Malta", value: 28409 },
+        { name: "Thailand", value: 28346 },
+        { name: "Democratic Republic of Congo", value: 27580 },
+        { name: "Maldives", value: 22790 },
+        { name: "Madagascar", value: 22682 },
+        { name: "Angola", value: 21774 },
+        { name: "Rwanda", value: 20975 },
+        { name: "Guinea", value: 18945 },
+        { name: "Gabon", value: 18078 },
+        { name: "Syria", value: 17743 },
+        { name: "Mauritania", value: 17658 },
+        { name: "Eswatini", value: 17296 },
+        { name: "Cape Verde", value: 16555 },
+        { name: "Tajikistan", value: 13308 },
+        { name: "Haiti", value: 12722 },
+        { name: "Burkina Faso", value: 12572 },
+        { name: "Belize", value: 12410 },
+        { name: "Andorra", value: 11591 },
+        { name: "Lesotho", value: 10685 },
+        { name: "Somalia", value: 10369 },
+        { name: "South Sudan", value: 9919 },
+        { name: "Guyana", value: 9732 },
+        { name: "Congo", value: 9564 },
+        { name: "Mali", value: 9474 },
+        { name: "Togo", value: 9147 },
+        { name: "Suriname", value: 9074 },
+        { name: "Bahamas", value: 8935 },
+        { name: "Trinidad and Tobago", value: 7865 },
+        { name: "Benin", value: 6818 },
+        { name: "Equatorial Guinea", value: 6780 },
+        { name: "Djibouti", value: 6771 },
+        { name: "Nicaragua", value: 6629 },
+        { name: "Iceland", value: 6122 },
+        { name: "Mongolia", value: 5610 },
+        { name: "Gambia", value: 5255 },
+        { name: "Central African Republic", value: 5087 },
+        { name: "Niger", value: 4939 },
+        { name: "Chad", value: 4440 },
+        { name: "San Marino", value: 4432 },
+        { name: "Saint Lucia", value: 4149 },
+        { name: "Sierra Leone", value: 3949 },
+        { name: "Seychelles", value: 3798 },
+        { name: "Papua New Guinea", value: 3758 },
+        { name: "Comoros", value: 3681 },
+        { name: "Yemen", value: 3612 },
+        { name: "Guinea-Bissau", value: 3586 },
+        { name: "Barbados", value: 3574 },
+        { name: "Eritrea", value: 3118 },
+        { name: "Liechtenstein", value: 2634 },
+        { name: "Burundi", value: 2628 },
+        { name: "Vietnam", value: 2575 },
+        { name: "New Zealand", value: 2470 },
+        { name: "Monaco", value: 2199 },
+        { name: "Sao Tome and Principe", value: 2159 },
+        { name: "Liberia", value: 2042 },
+        { name: "Cambodia", value: 1817 },
+        { name: "Saint Vincent and the Grenadines", value: 1696 },
+        { name: "Antigua and Barbuda", value: 1080 },
+        { name: "Taiwan", value: 1007 },
+        { name: "Bhutan", value: 869 },
+        { name: "Mauritius", value: 826 },
+        { name: "International", value: 721 },
+        { name: "Tanzania", value: 509 },
+        { name: "Timor", value: 351 },
+        { name: "Brunei", value: 206 },
+        { name: "Dominica", value: 156 },
+        { name: "Grenada", value: 154 },
+        { name: "Fiji", value: 67 },
+        { name: "Laos", value: 49 },
+        { name: "Saint Kitts and Nevis", value: 44 },
+        { name: "Vatican", value: 27 },
+        { name: "Solomon Islands", value: 18 },
+        { name: "Marshall Islands", value: 4 },
+        { name: "Samoa", value: 3 },
+        { name: "Vanuatu", value: 3 },
+        { name: "Micronesia (country)", value: 1 }
+      ];
+      
+    const chartContainer = document.createElement('div');
+    document.body.appendChild(chartContainer);
+  
+    const width = 932;
+    const height = 932;
+  
+    console.log('Data:', data);
+    const svg = d3.select(chartContainer)
+      .append('svg')
+      .attr('viewBox', [0, 0, width, height])
+      .attr('font-size', 10)
+      .attr('font-family', 'sans-serif')
+      .attr('text-anchor', 'middle');
+  
+    const color = d3.scaleOrdinal(data.map(d => d.name), d3.schemeCategory10);
+    const format = d3.format(',d');
+  
+    const pack = data => d3.pack()
+      .size([width - 2, height - 2])
+      .padding(3)
+      (d3.hierarchy({ children: data })
+      .sum(d => d.value));
+  
+    const root = pack(data);
+  
+    const leaf = svg.selectAll('g')
+      .data(root.leaves())
+      .enter()
+      .append('g')
+      .attr('transform', d => `translate(${d.x + 1},${d.y + 1})`);
+  
+    leaf.append('circle')
+      .attr('id', d => (d.leafUid = d3.local('leaf')).id)
+      .attr('r', d => d.r)
+      .attr('fill-opacity', 0.7)
+      .attr('fill', d => color(d.data.value));
+  
+    leaf.append('clipPath')
+      .attr('id', d => (d.clipUid = d3.local('clip')).id)
+      .append('use')
+      .attr('xlink:href', d => d.leafUid.href);
+  
+    leaf.append('text')
+      .attr('clip-path', d => d.clipUid)
+      .selectAll('tspan')
+      .data(d => (d.data.name || '').split(/(?=[A-Z][a-z])|\s+/g)) // Use a default empty string if d.data.name is undefined
+      .enter()
+      .append('tspan')
+      .attr('x', 0)
+      .attr('y', (d, i, nodes) => `${i - nodes.length / 2 + 0.8}em`)
+      .text(d => d);
+  
+    leaf.append('title')
+      .text(d => `${d.data.title === undefined ? '' : `${d.data.title}\n`}${format(d.value)}`);
+  });
 function w3_close() {
   document.getElementById("mySidebar").style.display = "none";
 }
 </script>
+<hr id="about">
+
+<!-- About Section -->
+<div class="w3-container w3-padding-32 w3-center">  
+  <h3>Covids impact on different death causes and medical systems around the globe.</h3><br>
+  <div class="w3-padding-32">
+    <p> The visualizations that we created compare varying death causes before COVID and after COVID. The user can gain insight on different trends that followed the COVID pandemic in the medical system. These visualizations explore the trend in different death causes after the COVID.</p>
+  </div>
+</div>
+<hr>
 
 </body>
 </html>
